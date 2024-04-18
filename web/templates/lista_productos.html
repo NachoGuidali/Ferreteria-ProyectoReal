@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+
+{% block content %}
+    
+
+    <!-- BUSCADOR -->
+
+    <form id="busquedaForm" class="busqueda" method="get" action="{% url 'productos' %}">
+        <div class="input-busqueda">
+            <input class="form-control" type="text" name="name" placeholder="Buscar productos..." value="{{ keyword_name }}">
+            <input class="form-control" type="text" name="proveedor" placeholder="Buscar por proveedor..." value="{{ keyword_proveedor }}">
+        </div>
+        <div class="boton-busqueda">
+            <button class="btn btn-secondary btn-lg" type="submit">Buscar</button>
+        </div>
+    </form>
+<div class="lista-paginador">
+    <!-- LISTADO DE PRODUCTOS  -->
+    <div class="titulo-listado">
+    <h1>Listado de Productos</h1>
+    </div>
+
+    <div id="table" class='table-responsive tabla-productos' data-role='add-products'></div>
+    <table class="table product-list">
+        <thead>
+            <tr>
+                <th>Cód</th>
+                <th>Nombre</th>
+                <th>Proveedor</th>
+                <th>Precio</th> 
+                <th>Accion</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in page_obj %}
+            <td>{{ producto.codigo }}</td>
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.proveedor }}</td>
+            <td>$ {{ producto.precio }}</td>
+            <td>
+                <form action="{% url 'agregar_al_carrito' producto.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="producto_id" value="{{ producto.id }}">
+                    <input type="number" name="cantidad" value="1" min="1">
+                    <button class="btn btn-success boton-agregar" type="submit">Agregar al Carrito</button>
+                </form>
+            </td>
+        </tbody>
+            {% empty %}
+            <tr>
+                <td colspan="5">No se encontraron productos.</td>
+            </tr>
+            {% endfor %}
+    </table>
+
+
+    <!-- PAGINADOR -->
+
+    <nav aria-label="Page navigation example" class="paginator">
+        <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?name={{ keyword_name }}&proveedor={{ keyword_proveedor }}&page={{ page_obj.previous_page_number }}">Prev</a>
+            </li>
+        {% endif %}
+        
+        {% for num in page_obj.paginator.page_range %}
+            {% if num == page_obj.number %}
+                <li class="page-item">
+                    <a class="page-link current-page" href="#">{{ num }}</a>
+                </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?name={{ keyword_name }}&proveedor={{ keyword_proveedor }}&page={{ num }}">{{ num }}</a>
+            </li>    
+            {% endif %}
+        {% endfor %}
+    
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?name={{ keyword_name }}&proveedor={{ keyword_proveedor }}&page={{ page_obj.next_page_number }}">Next</a>  
+            </li>      
+        {% endif %}
+        </ul> 
+    </nav>
+</div>
+<!-- SLIDER -->
+<div class="slider-container">
+    <div class="swiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <img src="../static/media/barbero_small.jpg" alt="BATBERO">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/biassoni_small.png" alt="BIASSONI">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/damalu_small.jpg" alt="DAMALU">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/diluvio_small.png" alt="DILUVIO">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/duke_small.png" alt="DUKE">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/evel_small.png" alt="EVEL">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/fischer_small.png" alt="FISCHER">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/fortex_small.png" alt="FORTEX">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/gherardi_small.png" alt="GHERARDI">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/mharka_small.png" alt="MHARKA">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/mustad_small.png" alt="MUSTAD">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/navegante_small.png" alt="NAVEGANTE">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/neike_small.png" alt="NEIKE">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/nth_small.png" alt="NTH">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/perfecto_small.png" alt="PERFECTO">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/pinas_small.png" alt="PINAS">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/plastimet_small.png" alt="PLASTIMET">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/prive_small.png" alt="PRIVE">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/rapifix_small.png" alt="RAPIFIX">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/santa-juana_small.jpg" alt="SANTA">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/sinpar_small.png" alt="SINPAR">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/steelpro_small.png" alt="STEELPRO">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/tacolatex_small.png" alt="TACOLATEX">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/tacsa_small.jpg" alt="TACSA">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/tekbond_small.png" alt="TEKBOND">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/tramontina_small.png" alt="TRAMONTINA">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/urban_small.png" alt="URBAN">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/viyilant_small.png" alt="VIYILANT">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/vulcano_small.jpg" alt="VULCANO">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/zelta_small.png" alt="ZELTA">
+            </div>
+        </div>
+    </div>
+</div>
+          
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+
+const swiper = new Swiper('.swiper', {
+    slidesPerView: 6, // Mostrar slides según el espacio disponible
+    spaceBetween: 50, // Espacio entre slides
+    loop: true,
+    centeredSlides: true,
+    autoplay: {
+        delay: 2000, // Cambiar cada 3 segundos (3000 ms)
+    },
+});
+
+</script> 
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('busquedaForm');
+    const inputs = form.querySelectorAll('input[type="text"]');
+    
+    inputs.forEach(input => {
+        input.addEventListener('input', function () {
+            const formData = new FormData(form);
+            const url = form.getAttribute('action');
+            
+            fetch(url, {
+                method: 'GET',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('table').innerHTML = data;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+});
+</script>
+{% endblock %}
+

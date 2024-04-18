@@ -1,0 +1,189 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'index.css' %}">
+    <!-- Styles -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body>
+    
+    <!-- NAVBAR -->
+    <nav class="navbar sticky-top navbar-expand-md bg-body-tertiary">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-toggler" aria-controls="navbar-toggler" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+          <div class="collapse navbar-collapse" id="navbar-toggler">
+            <a class="navbar-brand" href="#hero">
+                <img class="img-nav" src="#" width="70" alt="Imagen de Pagina">
+            </a>
+            <ul class="navbar-nav d-flex justify-content-center align-items-center">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Inicio   </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Productos</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link " href="#">Proveedores</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link " href="#">Contacto</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+
+    <!-- BANNER -->
+
+    <section class="banner">
+        <h1>Bienvenido a nuestra ferretería</h1>
+        <p>Encuentra todo lo que necesitas para tus proyectos de construcción y renovación.</p>
+        <p><a href="mailto:nachog.akd@hotmail.com" target="_blank" rel="noopener noreferrer">Contactanos por Email</a></p>
+    </section>
+
+    <!-- BUSCADOR -->
+
+    <form class="busqueda" method="get" action="{% url 'productos' %}">
+        <div class="input-busqueda">
+            <input class="form-control" type="text" name="name" placeholder="Buscar productos..." value="{{ keyword_name }}">
+            <input class="form-control" type="text" name="proveedor" placeholder="Buscar por proveedor..." value="{{ keyword_proveedor }}">
+        </div>
+        <div class="boton-busqueda">
+            <button class="btn btn-secondary btn-lg" type="submit">Buscar</button>
+        </div>
+    </form>
+
+    <!-- LISTADO DE PRODUCTOS  -->
+
+    <h1>Listado de Productos</h1>
+    
+    <div id="table" class='table-responsive' data-role='add-products'></div>
+    <table class="table product-list">
+        <thead>
+            <tr>
+                <th>Cód</th>
+                <th>Nombre</th>
+                <th>Proveedor</th>
+                <th>Precio</th> 
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in page_obj %}
+            <td>{{ producto.codigo }}</td>
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.proveedor }}</td>
+            <td>$ {{ producto.precio }}</td>
+        </tbody>
+            {% empty %}
+                <p>No se encontraron productos.</p>
+            {% endfor %}
+    </table>
+
+
+    <!-- PAGINADOR -->
+
+    <nav aria-label="Page navigation example" class="paginator">
+        <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?name={{ keyword_name }}&proveedor={{ keyword_proveedor }}&page={{ page_obj.previous_page_number }}">Anterior</a>
+            </li>
+        {% endif %}
+        
+        {% for num in page_obj.paginator.page_range %}
+            {% if num == page_obj.number %}
+                <li class="page-item">
+                    <a class="page-link current-page" href="#">{{ num }}</a>
+                </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?name={{ keyword_name }}&proveedor={{ keyword_proveedor }}&page={{ num }}">{{ num }}</a>
+            </li>    
+            {% endif %}
+        {% endfor %}
+    
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?name={{ keyword_name }}&proveedor={{ keyword_proveedor }}&page={{ page_obj.next_page_number }}">Siguiente</a>  
+            </li>      
+        {% endif %}
+        </ul> 
+    </nav>
+
+    <!-- SLIDER -->
+
+     <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <img src="../static/media/evel_small.png" alt="Imagen 1">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/duke_small.png" alt="Imagen 2">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/evel_small.png" alt="Imagen 3">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/evel_small.png" alt="Imagen 3">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/evel_small.png" alt="Imagen 3">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/evel_small.png" alt="Imagen 3">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/evel_small.png" alt="Imagen 3">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/evel_small.png" alt="Imagen 3">
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- FOOTER  -->
+    <footer class="seccion-oscura d-flex flex-column align-items-center justify-content-center">
+        
+        <p class="footer-texto text-center">Contactanos en alguno de nuestros medios <br>El mejor precio asegurado</p>
+        <div class="iconos-redes d-flex flex-wrap align-items-center justify-content-center">
+          <a href="https://twitter.com/nachoguidali" target="_blank" rel="noopener noreferrer"><i class="bi bi-twitter"></i></a>
+          <a href="https://instagram.com/nachoguidali" target="_blank" rel="noopener noreferrer"><i class="bi bi-instagram"></i></a>
+          <a href="https://linkedin.com/in/guidaliignacio/" target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin"></i></a>
+          <a href="https://github.com/nachoguidali" target="_blank" rel="noopener noreferrer"><i class="bi bi-github"></i></a>
+          <a href="mailto:nachog.akd@hotmail.com" target="_blank" rel="noopener noreferrer"><i class="bi bi-envelope"></i></a>
+        </div>
+        
+    </footer>
+
+    <!-- COPYRIGHT -->
+    <div class="copy"> 
+        <p>Copyright © Ferreteria. Todos los derechos reservados</p>
+        <p>Creado por Nacho Guidali (2023) ©</p>
+    </div>
+<!--este es el boostrap de javascript-->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>  
+<script>
+    var swiper = new Swiper('.swiper-container', {
+        slidesPerView: 3, // Mostrar tres slides por vista
+        spaceBetween: 30, // Espacio entre slides
+        loop: true, // Habilitar bucle infinito
+        autoplay: {
+            delay: 2000, // Cambiar cada 3 segundos (3000 ms)
+        },
+    });
+</script>  
+
+</body>
+</html>
+

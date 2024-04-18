@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+ <!-- BUSCADOR -->
+
+ <form class="busqueda" method="get" action="{% url 'productos' %}">
+    <div class="input-busqueda">
+        <input class="form-control" type="text" name="name" placeholder="Buscar productos..." value="{{ keyword_name }}">
+        <input class="form-control" type="text" name="proveedor" placeholder="Buscar por proveedor..." value="{{ keyword_proveedor }}">
+    </div>
+    <div class="boton-busqueda">
+        <button class="btn btn-secondary btn-lg" type="submit">Buscar</button>
+    </div>
+</form>
+
+<div class="texto-home">
+    <p>Contamos con una amplia variedad de marcas y productos para poder brindarte siempre el mejor servicio posible.</p>
+</div>
+ 
+
+<!-- SLIDER -->
+<div class="slider-container">
+    <div class="swiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <img src="../static/media/barbero_small.jpg" alt="BATBERO">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/biassoni_small.png" alt="BIASSONI">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/damalu_small.jpg" alt="DAMALU">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/diluvio_small.png" alt="DILUVIO">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/duke_small.png" alt="DUKE">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/evel_small.png" alt="EVEL">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/fischer_small.png" alt="FISCHER">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/fortex_small.png" alt="FORTEX">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/gherardi_small.png" alt="GHERARDI">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/mharka_small.png" alt="MHARKA">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/mustad_small.png" alt="MUSTAD">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/navegante_small.png" alt="NAVEGANTE">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/neike_small.png" alt="NEIKE">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/nth_small.png" alt="NTH">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/perfecto_small.png" alt="PERFECTO">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/pinas_small.png" alt="PINAS">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/plastimet_small.png" alt="PLASTIMET">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/prive_small.png" alt="PRIVE">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/rapifix_small.png" alt="RAPIFIX">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/santa-juana_small.jpg" alt="SANTA">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/sinpar_small.png" alt="SINPAR">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/steelpro_small.png" alt="STEELPRO">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/tacolatex_small.png" alt="TACOLATEX">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/tacsa_small.jpg" alt="TACSA">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/tekbond_small.png" alt="TEKBOND">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/tramontina_small.png" alt="TRAMONTINA">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/urban_small.png" alt="URBAN">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/viyilant_small.png" alt="VIYILANT">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/vulcano_small.jpg" alt="VULCANO">
+            </div>
+            <div class="swiper-slide">
+                <img src="../static/media/zelta_small.png" alt="ZELTA">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CONTACTO  -->
+<div id="contacto" class="container contacto">
+<div class="container-fluid d-flex justify-content-center contact">
+    <div class="contacto-titulo">
+        <h2>Contacto</h2>
+        <p>Comunicate con nosotros completando el formulario y a la breveddad nos comunicamos</p>
+    </div>    
+<form class="shadow mb-5 rounded contact-form">
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombre</label>
+      <input type="text" class="form-control" id="nombre" placeholder="Ingresa tu nombre">
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Correo electrónico</label>
+      <input type="email" class="form-control" id="email" placeholder="Ingresa tu correo electrónico">
+    </div>
+    <div class="mb-3">
+      <label for="mensaje" class="form-label">Mensaje</label>
+      <textarea class="form-control" id="mensaje" rows="3" placeholder="Escribe tu mensaje"></textarea>
+    </div>
+    <div class="boton-contacto">
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </div>
+</form>
+</div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+
+const swiper = new Swiper('.swiper', {
+    slidesPerView: 6, // Mostrar slides según el espacio disponible
+    spaceBetween: 50, // Espacio entre slides
+    loop: true,
+    centeredSlides: true,
+    autoplay: {
+        delay: 2000, // Cambiar cada 3 segundos (3000 ms)
+    },
+});
+
+</script>  
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="titulo_carrito">
+    <h1>Tu carrito de compras <i class="fas fa-shopping-cart"></i></h1>
+</div>
+
+    
+    {% if request.session.carrito.items %}
+    <table class="table tabla-carrito">
+        <thead>
+            <tr class="encabezado-carrito">
+                <th>Codigo</th>
+                <th>Producto</th>
+                <th>Precio Unitario</th>
+                <th>Cantidad</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key, value in request.session.carrito.items %}
+            <tr>
+                <td>{{ value.codigo }}</td>
+                <td>{{ value.nombre }}</td>
+                <td>${{ value.precio }}</td>
+                <td>{{ value.cantidad }}
+                    <form method="post" action="{% url 'restar_producto' value.producto_id %}">
+                        {% csrf_token %}
+                        <button type="submit">Restar</button>
+                    </form>
+                </td>
+                <td>${{ value.subtotal }}</td>
+                <td>
+                    <form method="post" action="{% url 'eliminar_del_carrito' value.producto_id %}">
+                        {% csrf_token %}
+                        <button type="submit">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3">Total:</td>
+                <td>${{ total_carrito }}</td>
+            </tr>
+        </tfoot>
+    </table>
+    {% else %}
+    <p>El carrito está vacío.</p>
+    {% endif %}
+    <div class="row text-center botones-carrito">
+        <div class="col-6"> <a href="{% url 'vaciar_carrito' %}" class="btn btn-danger btn-carrito">Vaciar Carrito <i class="fas fa-trash-alt"></i></a></div>
+        <div class="col-6"> <a href="{% url 'enviar_carrito_por_whatsapp' %}" class="btn btn-primary btn-carrito" target="_blank">Enviar por WhatsApp <i class="fab fa-whatsapp"></i></a></div>
+
+    </div>
+
+<!-- <h1>Carrito de Compras</h1>
+    
+    {% if productos_en_carrito %}
+    <table>
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Precio Unitario</th>
+                <th>Cantidad</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in productos_en_carrito %}
+            <tr>
+                <td>{{ item.producto.nombre }}</td>
+                <td>${{ item.producto.precio }}</td>
+                <td>{{ item.cantidad }}</td>
+                <td>${{ item.subtotal }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3">Total:</td>
+                <td>${{ total_carrito }}</td>
+            </tr>
+        </tfoot>
+    </table>
+    {% else %}
+    <p>El carrito está vacío.</p>
+    {% endif %}
+    
+    <a href="{% url 'productos' %}">Volver a la lista de productos</a>
+
+Botón para enviar el carrito por Whatsapp 
+<form action="{{ 'enviar_carrito_por_whatsapp' }}" method="post">
+    {% csrf_token %}
+    <button type="submit">Enviar Carrito por Whatsapp</button>
+</form> -->
+
+
+{% endblock %}
