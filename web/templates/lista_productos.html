@@ -42,7 +42,7 @@
                     {% csrf_token %}
                     <input type="hidden" name="producto_id" value="{{ producto.id }}">
                     <input type="number" name="cantidad" value="1" min="1">
-                    <button class="btn btn-success boton-agregar" type="submit">Agregar al Carrito</button>
+                    <button id="botonCarrito" class="btn btn-success boton-agregar" type="submit">Agregar al Carrito</button>
                 </form>
             </td>
         </tbody>
@@ -223,6 +223,26 @@ const swiper = new Swiper('.swiper', {
         });
     });
 });
+</script>
+
+<script>
+// Función para cambiar el contenido del botón en función del ancho de la ventana
+function cambiarContenidoBotones() {
+  var botones = document.getElementsByClassName("boton-agregar");
+  for (var i = 0; i < botones.length; i++) {
+    if (window.innerWidth <= 600) {
+      botones[i].innerHTML = '<i class="fas fa-shopping-cart"></i> +';
+    } else {
+      botones[i].textContent = "Agregar al carrito";
+    }
+  }
+}
+
+// Verificar el ancho de la ventana al cargar la página y al cambiar su tamaño
+window.onload = cambiarContenidoBotones;
+window.onresize = cambiarContenidoBotones;
+
+
 </script>
 {% endblock %}
 
