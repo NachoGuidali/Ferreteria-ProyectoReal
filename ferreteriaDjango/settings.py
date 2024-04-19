@@ -70,7 +70,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'ferreteriaDjango.wsgi.application'
+WSGI_APPLICATION = 'ferreteriaDjango.wsgi.app'
 
 
 
