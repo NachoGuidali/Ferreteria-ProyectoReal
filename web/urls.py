@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import cargar_productos, lista_productos, home, agregar_al_carrito, restar_producto, vaciar_carrito, eliminar_del_carrito, ver_carrito, enviar_carrito_por_whatsapp
-from django.contrib.auth.views import LoginView
+
 urlpatterns = [
     path('', home, name='home'),
     path('productos', lista_productos, name='productos'),
@@ -11,6 +11,6 @@ urlpatterns = [
     path('vaciar-carrito/', vaciar_carrito, name='vaciar_carrito'),
     path('carrito', ver_carrito, name='carrito'),
     path('enviar-carrito/', enviar_carrito_por_whatsapp, name='enviar_carrito_por_whatsapp'),
-    path('login/', LoginView.as_view(template_name='registration/login.html'), name='login'),
+    
     
 ]

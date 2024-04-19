@@ -56,46 +56,4 @@
 
     </div>
 
-<!-- <h1>Carrito de Compras</h1>
-    
-    {% if productos_en_carrito %}
-    <table>
-        <thead>
-            <tr>
-                <th>Producto</th>
-                <th>Precio Unitario</th>
-                <th>Cantidad</th>
-                <th>Subtotal</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in productos_en_carrito %}
-            <tr>
-                <td>{{ item.producto.nombre }}</td>
-                <td>${{ item.producto.precio }}</td>
-                <td>{{ item.cantidad }}</td>
-                <td>${{ item.subtotal }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="3">Total:</td>
-                <td>${{ total_carrito }}</td>
-            </tr>
-        </tfoot>
-    </table>
-    {% else %}
-    <p>El carrito está vacío.</p>
-    {% endif %}
-    
-    <a href="{% url 'productos' %}">Volver a la lista de productos</a>
-
-Botón para enviar el carrito por Whatsapp 
-<form action="{{ 'enviar_carrito_por_whatsapp' }}" method="post">
-    {% csrf_token %}
-    <button type="submit">Enviar Carrito por Whatsapp</button>
-</form> -->
-
-
 {% endblock %}
