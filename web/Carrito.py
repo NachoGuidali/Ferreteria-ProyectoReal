@@ -13,13 +13,20 @@ class Carrito:
 
     def agregar(self, producto, cantidad=1):
         id = str(producto.id)
+        if producto.tipo_moneda == 'DOLARIZADO':
+            producto.precio_con_moneda = f"USD {round(producto.precio, 2)}"   
+        else:
+            producto.precio_con_moneda = f"$ {round(producto.precio, 2)}"
+
         if id not in self.carrito.keys():
             self.carrito[id]={
                 'producto_id' : producto.id,
                 'codigo' : producto.codigo, 
                 'nombre' : producto.nombre,
                 'cantidad' : cantidad,
-                'precio' : producto.precio,
+                'tipo_moneda' : producto.tipo_moneda,
+                'precio_sin_moneda' : producto.precio,
+                'precio' : producto.precio_con_moneda,
                 'subtotal' : producto.precio * cantidad,
             }
         else:
@@ -53,6 +60,6 @@ class Carrito:
 
     def calcular_subtotales(self):
         for item in self.carrito.values():
-            if 'precio' in item and 'cantidad' in item:
-                item['subtotal'] = round(item['precio'] * item['cantidad'])
+            if 'precio_sin_moneda' in item and 'cantidad' in item:
+                item['subtotal'] = round(item['precio_sin_moneda'] * item['cantidad'], 2)
   

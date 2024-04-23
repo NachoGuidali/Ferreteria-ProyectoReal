@@ -21,9 +21,11 @@ def home(request):
 
 def lista_productos(request):
     productos = Producto.objects.all()
-
+  
+    # LOGICA DEL BUSCADOR 
     keyword_name = request.GET.get('name')
     keyword_proveedor = request.GET.get('proveedor')
+
     if keyword_name:
         productos = productos.filter(nombre__icontains=keyword_name)
     else:
@@ -32,16 +34,42 @@ def lista_productos(request):
         productos = productos.filter(proveedor__icontains=keyword_proveedor)
     else:
         keyword_proveedor = ''    
-    paginator = Paginator(productos, 10)
+
+    # PAGINADOR
+    paginator = Paginator(productos, 15)
     page_number = request.GET.get('page')
-    # page_obj = paginator.get_page(page_number)    
+       
     try:
         page_obj = paginator.page(page_number)
     except PageNotAnInteger:
         page_obj = paginator.page(1)
     except EmptyPage:
         page_obj = paginator.page(paginator.num_pages)
-    return render(request, 'lista_productos.html', {'page_obj': page_obj, 'keyword_name': keyword_name, 'keyword_proveedor': keyword_proveedor})
+
+    for producto in page_obj:
+        if producto.tipo_moneda == 'DOLARIZADO':
+            producto.precio_con_moneda = f"USD {round(producto.precio, 2)}"   
+        else:
+            producto.precio_con_moneda = f"$ {round(producto.precio, 2)}"
+
+    # Calcular los rangos de páginas a mostrar
+    total_pages = paginator.num_pages
+    current_page = page_obj.number
+    max_pages_shown = 9
+    half_max_pages_shown = max_pages_shown // 2
+
+    start_page = max(current_page - half_max_pages_shown, 1)
+    end_page = min(current_page + half_max_pages_shown, total_pages)
+
+    if end_page - start_page < max_pages_shown:
+        if start_page == 1:
+            end_page = min(start_page + max_pages_shown - 1, total_pages)
+        else:
+            start_page = max(end_page - max_pages_shown + 1, 1)
+
+    page_range = range(start_page, end_page + 1)
+
+    return render(request, 'lista_productos.html', {'page_obj': page_obj, 'keyword_name': keyword_name, 'keyword_proveedor': keyword_proveedor, 'page_range': page_range})
 
 @login_required
 def cargar_productos(request):
@@ -51,13 +79,14 @@ def cargar_productos(request):
             Producto.objects.all().delete()
             archivo_excel = request.FILES['archivo_excel']
             try:
-                df = pd.read_excel(archivo_excel)
+                df = pd.read_excel(archivo_excel, skiprows=8)
                 for index, row in df.iterrows():
                     Producto.objects.create(
-                        codigo=row['codigo'],
-                        nombre=row['nombre'],
-                        proveedor=row['proveedor'],
-                        precio=row['precio'],
+                        codigo=row['Codigo'],
+                        nombre=row['Producto'],
+                        proveedor=row['Marca'],
+                        tipo_moneda=row['TipoMoneda'],
+                        precio=row['Precio'],
                     )
                 return redirect('productos')
             except Exception as e:
@@ -92,81 +121,12 @@ def vaciar_carrito(request):
     carrito.limpiar()
     return redirect('productos')
 
-"""def agregar_al_carrito(request, producto_id):
-    producto = get_object_or_404(Producto, pk=producto_id)
-    cantidad = int(request.POST.get('cantidad', 1))  # Si no se proporciona ninguna cantidad, establecerla en 1 por defecto
-    carrito = request.session.get('carrito', {})
-    print(type(cantidad))
-    if producto_id in carrito:
-        carrito[producto_id] += cantidad  # Incrementar la cantidad existente
-        print(type(cantidad))
-    else:
-        carrito[producto_id] = cantidad  # Almacenar la cantidad para un nuevo producto
-    
-    request.session['carrito'] = carrito
-    request.session.modified = True  # Marcar la sesión como modificada para asegurar que se guarde correctamente
-    print(type(cantidad))
-    return redirect('productos')
-
-
-
-def eliminar_del_carrito(request, producto_id):
-    if request.method == 'POST':
-        carrito = request.session.get('carrito', {})
-        if producto_id in carrito:
-            del carrito[producto_id]
-            request.session['carrito'] = carrito
-    return redirect('ver_carrito')"""
-
-
-
-
-# def enviar_carrito_por_whatsapp(request):
-#     carrito = request.session.get('carrito', {})
-#     # Generar mensaje con los detalles del carrito
-#     mensaje = "Mi carrito de compras:\n"
-#     for producto_id, cantidad in carrito.items():
-#         producto = Producto.objects.get(id=producto_id)
-#         mensaje += f"{producto.nombre} - Cantidad: {cantidad}\n"
-    
-#     # Redirigir a Whatsapp con el mensaje prellenado
-#     url_whatsapp = f"https://api.whatsapp.com/send?phone=1163589975&text={mensaje}"
-#     return redirect(url_whatsapp)
-
-
-# def vaciar_carrito(request):
-#     if request.method == 'POST':
-#         request.session['carrito'] = {}
-#     return redirect('ver_carrito')
-
-
-
-# def ver_carrito(request):
-#     carrito = request.session.get('carrito', {})
-#     productos_en_carrito = []
-#     total_carrito = 0
-#     cantidad = type(int)
-#     for producto_id, cantidad in carrito.items():
-#         producto = get_object_or_404(Producto, pk=producto_id)
-#         subtotal = producto.precio * cantidad
-#         total_carrito += subtotal
-#         productos_en_carrito.append({
-#             'producto': producto,
-#             'cantidad': cantidad,
-#             'subtotal': subtotal
-#         })
-    
-#     return render(request, 'carrito.html', {
-#      'productos_en_carrito': productos_en_carrito,
-#         'total_carrito': total_carrito
-#     })
 
 def ver_carrito(request):
     carrito = Carrito(request)  # Inicializa la instancia de la clase Carrito con la solicitud actual
     carrito.calcular_subtotales()  # Calcula los subtotales para cada elemento del carrito
     contenido_carrito = carrito.carrito  # Obtén el contenido del carrito desde la instancia de la clase Carrito
 
-    # Puedes pasar el contenido del carrito a la plantilla para renderizarlo
     return render(request, 'carrito.html', {'contenido_carrito': contenido_carrito})
 
 def enviar_carrito_por_whatsapp(request):
@@ -174,11 +134,15 @@ def enviar_carrito_por_whatsapp(request):
     contenido_carrito = carrito.carrito
 
     mensaje = "¡Hola! Quisiera realizar el siguiente pedido:\n\n"
-    total_carrito_msj = total_carrito(request)['total_carrito']
+    total_carrito_usd = total_carrito(request)['total_carrito_usd']
+    total_carrito_pesos = total_carrito(request)['total_carrito_pesos']
+    
     for item in contenido_carrito.values():
-        mensaje += f"Cod: {item['codigo']} - {item['nombre']} - Cantidad: {item['cantidad']} - Subtotal: ${item['subtotal']}\n"
-
-    mensaje += f"\n*Total del pedido: ${total_carrito_msj}*"
+        if item['tipo_moneda'] == "DOLARIZADO":
+            mensaje += f"- Cod: {item['codigo']} - {item['nombre']} - Cantidad: {item['cantidad']} - Subtotal: USD{round(item['subtotal'], 2)}\n"
+        else: 
+            mensaje += f"- Cod: {item['codigo']} - {item['nombre']} - Cantidad: {item['cantidad']} - Subtotal: ${round(item['subtotal'], 2)}\n"
+    mensaje += f"\n*Total del pedido: ${total_carrito_pesos} / USD{total_carrito_usd}*"
 
     # Número de teléfono al que se enviará el mensaje (debe estar en el formato internacional)
     numero_destino = '5491130125525'  # Reemplazar con el número del dueño del local

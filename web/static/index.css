@@ -270,10 +270,11 @@ footer{
 /* PAGINATOR */
 
 .current-page {
-    background-color: #007bff !important; /* Color de fondo azul */
+    background-color: #00ccff !important; /* Color de fondo azul */
     color: white !important; /* Texto en color blanco */
     padding: 5px 10px !important; /* Añadir espacio alrededor del número */
-    border-radius: 5px !important; /* Esquinas redondeadas */
+    border-radius: 5px !important;
+    
 }
 
 .lista-paginador{
@@ -282,7 +283,18 @@ footer{
     justify-content: center;
     flex-direction: column;
 }
+.btn-nxt-prev{
+    background-color: rgba(255, 11, 15, 0.9) !important;
+    color: white !important;
+    border-radius: 5px !important;
+}
 
+.paginator .pagination .page-item.active .page-link{
+    background-color: rgb(255, 11, 15, 0.9) !important;
+    border-color: rgb(255, 11, 15) !important;
+    border-radius: 5px !important;
+    
+}
 
 /* CARGA ARCHIVO */
 

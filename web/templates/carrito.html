@@ -23,14 +23,18 @@
             <tr>
                 <td>{{ value.codigo }}</td>
                 <td>{{ value.nombre }}</td>
-                <td>${{ value.precio }}</td>
+                <td>{{ value.precio }}</td>
                 <td>{{ value.cantidad }}
                     <form method="post" action="{% url 'restar_producto' value.producto_id %}">
                         {% csrf_token %}
                         <button type="submit">Restar</button>
                     </form>
                 </td>
-                <td>${{ value.subtotal }}</td>
+                {% if value.tipo_moneda == 'DOLARIZADO' %}
+                    <td>USD {{ value.subtotal }}</td>
+                {% else %}
+                    <td>${{ value.subtotal }}</td>
+                {% endif %}
                 <td>
                     <form method="post" action="{% url 'eliminar_del_carrito' value.producto_id %}">
                         {% csrf_token %}
@@ -42,8 +46,12 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="3">Total:</td>
-                <td>${{ total_carrito }}</td>
+                <td colspan="3">Total usd:</td>
+                <td>USD {{ total_carrito_usd }}</td>
+            </tr>
+            <tr>
+                <td colspan="3">Total pesos:</td>
+                <td>$ {{ total_carrito_pesos }}</td>
             </tr>
         </tfoot>
     </table>

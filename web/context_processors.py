@@ -6,9 +6,23 @@
 #                 total += int(value['subtotal'])
 #     return {'total_carrito' : total}            
 
+# def total_carrito(request):
+#     total = 0
+#     carrito = request.session.get('carrito', {})  # Obtener el carrito de la sesión
+#     for key, value in carrito.items():
+#         total += round(value.get('subtotal', 0), 2)  # Sumar los subtotales de cada elemento del carrito
+#     return {'total_carrito': total}
+
+
+
 def total_carrito(request):
-    total = 0
+    total_usd = 0
+    total_pesos = 0
     carrito = request.session.get('carrito', {})  # Obtener el carrito de la sesión
     for key, value in carrito.items():
-        total += int(value.get('subtotal', 0))  # Sumar los subtotales de cada elemento del carrito
-    return {'total_carrito': total}
+        subtotal = value.get('subtotal', 0)
+        if value.get('tipo_moneda') == 'DOLARIZADO':
+            total_usd += subtotal
+        else:
+            total_pesos += subtotal
+    return {'total_carrito_usd': total_usd, 'total_carrito_pesos': total_pesos}
