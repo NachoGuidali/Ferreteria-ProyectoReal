@@ -20,38 +20,42 @@
     <h1>Listado de Productos</h1>
     </div>
 
-    <div id="table" class='table-responsive tabla-productos' data-role='add-products'></div>
     <table class="table product-list">
         <thead>
             <tr>
                 <th>Cód</th>
                 <th>Nombre</th>
                 <th>Marca</th>
-                <th>Precio</th> 
+                <th>Precio</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
             {% for producto in page_obj %}
-            <td>{{ producto.codigo }}</td>
-            <td>{{ producto.nombre }}</td>
-            <td>{{ producto.proveedor }}</td>
-            <td>{{ producto.precio_con_moneda }}</td>
-            <td>
-                <form action="{% url 'agregar_al_carrito' producto.id %}" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="producto_id" value="{{ producto.id }}">
-                    <input class="input-cantidad" type="number" name="cantidad" value="1" min="1">
-                    <button id="botonCarrito" class="btn btn-success boton-agregar" type="submit">Agregar al Carrito</button>
-                </form>
-            </td>
-        </tbody>
+            <tr>
+                <td>{{ producto.codigo }}</td>
+                <td>{{ producto.nombre }}</td>
+                <td>{{ producto.proveedor }}</td>
+                <td>{{ producto.precio_con_moneda }}</td>
+                <td>
+                    <form class="add-to-cart-form" action="{% url 'agregar_al_carrito' producto.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="producto_id" value="{{ producto.id }}">
+                        <input class="input-cantidad" type="number" name="cantidad" value="1" min="1">
+                        <button class="btn btn-success boton-agregar" type="button">Agregar al Carrito</button>
+                        <div class="cart-message" style="display: none;">Producto agregado al carrito</div>
+                    </form>
+                    
+                </td>
+            </tr>
             {% empty %}
             <tr>
                 <td colspan="5">No se encontraron productos.</td>
             </tr>
             {% endfor %}
+        </tbody>
     </table>
+    
 
 
     <!-- PAGINADOR -->
@@ -260,5 +264,50 @@ window.onresize = cambiarContenidoBotones;
 
 
 </script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Selecciona todos los botones "Agregar al Carrito"
+  var addToCartButtons = document.querySelectorAll('.boton-agregar');
+
+  // Agrega un evento de clic a cada botón
+  addToCartButtons.forEach(function(button) {
+    button.addEventListener('click', function() {
+      var form = this.closest('form');
+      var productRow = this.closest('tr');
+      var cartMessage = form.querySelector('.cart-message');
+
+      // Envía la solicitud AJAX para agregar al carrito
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form)
+      })
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(data) {
+        // Resalta la fila del producto agregado
+        productRow.classList.add('product-added');
+        cartMessage.style.display = 'block';
+
+        // Elimina el resaltado después de 3 segundos
+        setTimeout(function() {
+          cartMessage.style.display = 'none';
+          productRow.classList.remove('product-added');
+        }, 3000);
+      })
+      .catch(function(error) {
+        console.error('Error al agregar al carrito:', error);
+      });
+    });
+  });
+});
+
+</script>
+
+
+
+
 {% endblock %}
 

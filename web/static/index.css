@@ -488,7 +488,7 @@ footer{
     
 }
 
-@media screen and (max-width: 460px){
+@media screen and (max-width: 470px){
     .product-list td{
         font-size: 12px !important;
     }
@@ -498,6 +498,10 @@ footer{
 
     .pagination .page-item{
         margin-inline: 4px;
+    }
+
+    .tabla-carrito{
+        font-size: 12px !important;
     }
 }
 
@@ -556,3 +560,17 @@ footer{
         width: 35px !important;
     }
 }
+
+.product-added {
+    font-weight: bold;
+}
+
+.cart-message{
+    margin-top: 3px;
+    border: solid 1px;
+    background-color: rgba(64, 255, 47, 0.63);
+    margin-inline: auto
+    ;
+}  
+  
+

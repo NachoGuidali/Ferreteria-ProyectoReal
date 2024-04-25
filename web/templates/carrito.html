@@ -38,7 +38,7 @@
                 <td>
                     <form method="post" action="{% url 'eliminar_del_carrito' value.producto_id %}">
                         {% csrf_token %}
-                        <button type="submit">Eliminar</button>
+                        <button class="boton-eliminar" type="submit">Eliminar</button>
                     </form>
                 </td>
             </tr>
@@ -64,4 +64,27 @@
 
     </div>
 
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        // Función para cambiar el contenido del botón en función del ancho de la ventana
+function cambiarContenidoBotonesCarrito() {
+  var botones = document.getElementsByClassName("boton-eliminar");
+  for (var i = 0; i < botones.length; i++) {
+    if (window.innerWidth <= 470) {
+      botones[i].innerHTML = '<i class="fas fa-trash-alt"></i>';
+    } else {
+      botones[i].textContent = "Eliminar";
+    }
+  }
+}
+
+// Verificar el ancho de la ventana al cargar la página y al cambiar su tamaño
+window.onload = cambiarContenidoBotonesCarrito;
+window.onresize = cambiarContenidoBotonesCarrito;
+
+
+
+    </script>
 {% endblock %}

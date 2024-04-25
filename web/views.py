@@ -4,12 +4,18 @@ from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.core.paginator import Paginator,EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
 from urllib.parse import quote
 from .models import Producto
 from .Carrito import Carrito
 from .context_processors import total_carrito
 
 from .forms import CargarProductosForm
+
 
 
 # Create your views here.
@@ -96,13 +102,16 @@ def cargar_productos(request):
     return render(request, 'cargar_productos.html', {'form': form})               
 
 
+@csrf_exempt
 def agregar_al_carrito(request, producto_id):
     if request.method == 'POST':
         carrito = Carrito(request)
         producto = Producto.objects.get(id=producto_id)
-        cantidad = int(request.POST.get('cantidad', 1))  # Obtener la cantidad del formulario, o establecerla en 1 por defecto
+        cantidad = int(request.POST.get('cantidad', 1))
         carrito.agregar(producto, cantidad)
-    return redirect('productos')
+        return JsonResponse({'message': 'Agregado al carrito correctamente.'})
+    else:
+        return JsonResponse({'message': 'Error al agregar al carrito.'}, status=400)
 
 def eliminar_del_carrito(request, producto_id):
     carrito = Carrito(request)
@@ -152,6 +161,16 @@ def enviar_carrito_por_whatsapp(request):
 
     # Construir el enlace de WhatsApp con el mensaje y el número de destino
     enlace_whatsapp = f"https://api.whatsapp.com/send?phone={numero_destino}&text={mensaje_codificado}"
+
+    asunto = "Nuevo pedido recibido"
+    destinatario = "nachog.akd@gmail.com"  # Reemplazar con el correo del dueño
+    send_mail(
+        asunto,
+        mensaje,
+        "nachog.akd@gmail.com",  # Reemplazar con el correo de la tienda
+        [destinatario],
+        fail_silently=False,
+    )
 
     # Redirigir al usuario al enlace de WhatsApp
     return redirect(enlace_whatsapp)
