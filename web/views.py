@@ -139,38 +139,41 @@ def ver_carrito(request):
     return render(request, 'carrito.html', {'contenido_carrito': contenido_carrito})
 
 def enviar_carrito_por_whatsapp(request):
-    carrito = Carrito(request)
-    contenido_carrito = carrito.carrito
+    if request.method == "POST":
+        nombre = request.POST['nombre']
+        email = request.POST['email']
+        carrito = Carrito(request)
+        contenido_carrito = carrito.carrito
 
-    mensaje = "¡Hola! Quisiera realizar el siguiente pedido:\n\n"
-    total_carrito_usd = total_carrito(request)['total_carrito_usd']
-    total_carrito_pesos = total_carrito(request)['total_carrito_pesos']
-    
-    for item in contenido_carrito.values():
-        if item['tipo_moneda'] == "DOLARIZADO":
-            mensaje += f"- Cod: {item['codigo']} - {item['nombre']} - Cantidad: {item['cantidad']} - Subtotal: USD{round(item['subtotal'], 2)}\n"
-        else: 
-            mensaje += f"- Cod: {item['codigo']} - {item['nombre']} - Cantidad: {item['cantidad']} - Subtotal: ${round(item['subtotal'], 2)}\n"
-    mensaje += f"\n*Total del pedido: ${total_carrito_pesos} / USD{total_carrito_usd}*"
+        mensaje = f"¡Hola! El cliente {nombre} (email: {email}) quisiera realizar el siguiente pedido:\n\n"
+        total_carrito_usd = total_carrito(request)['total_carrito_usd']
+        total_carrito_pesos = total_carrito(request)['total_carrito_pesos']
+        
+        for item in contenido_carrito.values():
+            if item['tipo_moneda'] == "DOLARIZADO":
+                mensaje += f"- Cod: {item['codigo']} - {item['nombre']} - Cantidad: {item['cantidad']} - Subtotal: USD{round(item['subtotal'], 2)}\n"
+            else: 
+                mensaje += f"- Cod: {item['codigo']} - {item['nombre']} - Cantidad: {item['cantidad']} - Subtotal: ${round(item['subtotal'], 2)}\n"
+        mensaje += f"\n*Total del pedido: ${total_carrito_pesos} / USD{total_carrito_usd}*"
 
-    # Número de teléfono al que se enviará el mensaje (debe estar en el formato internacional)
-    numero_destino = '5491168713660'  # Reemplazar con el número del dueño del local
+        # Número de teléfono al que se enviará el mensaje (debe estar en el formato internacional)
+        numero_destino = '5491168713660'  # Reemplazar con el número del dueño del local
 
-    # Codificar el mensaje para que sea una URL válida
-    mensaje_codificado = quote(mensaje)
+        # Codificar el mensaje para que sea una URL válida
+        mensaje_codificado = quote(mensaje)
 
-    # Construir el enlace de WhatsApp con el mensaje y el número de destino
-    enlace_whatsapp = f"https://api.whatsapp.com/send?phone={numero_destino}&text={mensaje_codificado}"
+        # Construir el enlace de WhatsApp con el mensaje y el número de destino
+        enlace_whatsapp = f"https://api.whatsapp.com/send?phone={numero_destino}&text={mensaje_codificado}"
 
-    asunto = "Nuevo pedido recibido"
-    destinatario = "nachog.akd@gmail.com"  # Reemplazar con el correo del dueño
-    send_mail(
-        asunto,
-        mensaje,
-        "nachog.akd@gmail.com",  # Reemplazar con el correo de la tienda
-        [destinatario],
-        fail_silently=False,
-    )
+        asunto = "Nuevo pedido recibido"
+        destinatario = "nachog.akd@gmail.com"  # Reemplazar con el correo del dueño
+        send_mail(
+            asunto,
+            mensaje,
+            "nachog.akd@gmail.com",  # Reemplazar con el correo de la tienda
+            [destinatario],
+            fail_silently=False,
+        )
 
-    # Redirigir al usuario al enlace de WhatsApp
-    return redirect(enlace_whatsapp)
+        # Redirigir al usuario al enlace de WhatsApp
+        return redirect(enlace_whatsapp)

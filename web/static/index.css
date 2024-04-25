@@ -393,12 +393,30 @@ footer{
 
 .botones-carrito{
     margin-bottom: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 }
 
 .tabla-carrito{
     margin-left: 5rem !important;
     margin-right: 5rem !important;
     width: 80% !important;
+}
+
+.form-group{
+    width: 50% !important;
+}
+
+.form-carrito{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.btn-carrito{
+    margin-top: 10px;
 }
 
 
@@ -515,7 +533,7 @@ footer{
         margin-left: 0rem !important;
         margin-right: 0rem !important;
         
-        font-size: 70% !important;
+        font-size: 60% !important;
     }
     .btn-carrito{
         font-size: 80% !important;
