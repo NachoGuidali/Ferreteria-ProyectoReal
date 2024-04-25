@@ -145,7 +145,7 @@ def enviar_carrito_por_whatsapp(request):
     mensaje += f"\n*Total del pedido: ${total_carrito_pesos} / USD{total_carrito_usd}*"
 
     # Número de teléfono al que se enviará el mensaje (debe estar en el formato internacional)
-    numero_destino = '5491130125525'  # Reemplazar con el número del dueño del local
+    numero_destino = '5491168713660'  # Reemplazar con el número del dueño del local
 
     # Codificar el mensaje para que sea una URL válida
     mensaje_codificado = quote(mensaje)
