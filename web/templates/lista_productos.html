@@ -41,7 +41,7 @@
                 <form action="{% url 'agregar_al_carrito' producto.id %}" method="post">
                     {% csrf_token %}
                     <input type="hidden" name="producto_id" value="{{ producto.id }}">
-                    <input type="number" name="cantidad" value="1" min="1">
+                    <input class="input-cantidad" type="number" name="cantidad" value="1" min="1">
                     <button id="botonCarrito" class="btn btn-success boton-agregar" type="submit">Agregar al Carrito</button>
                 </form>
             </td>

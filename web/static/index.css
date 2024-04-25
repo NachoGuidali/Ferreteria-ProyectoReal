@@ -484,6 +484,19 @@ footer{
     
 }
 
+@media screen and (max-width: 460px){
+    .product-list td{
+        font-size: 12px !important;
+    }
+    .input-cantidad{
+        width: 40px !important;
+    }
+
+    .pagination .page-item{
+        margin-inline: 4px;
+    }
+}
+
 @media screen and (max-width: 420px){
     .lista-paginador{
         margin-left: 1rem;
@@ -506,6 +519,7 @@ footer{
     .tabla-carrito{
         font-size: 65% !important;
     }
+    
 }
 
 
@@ -530,5 +544,11 @@ footer{
         --bs-btn-padding-x: 0.1rem !important;
         --bs-btn-padding-y: 0.1rem !important;
         
+    }
+    .product-list td{
+        font-size: 10px !important;
+    }
+    .input-cantidad{
+        width: 35px !important;
     }
 }
