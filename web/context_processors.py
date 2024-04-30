@@ -25,4 +25,4 @@ def total_carrito(request):
             total_usd += subtotal
         else:
             total_pesos += subtotal
-    return {'total_carrito_usd': total_usd, 'total_carrito_pesos': total_pesos}
+    return {'total_carrito_usd': round(total_usd, 2), 'total_carrito_pesos': round(total_pesos, 2)}
