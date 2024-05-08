@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+
+from dotenv import load_dotenv
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -19,11 +22,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-qwf^^m8g#(^s)7b3_4+f+veyk5u7g!iq&whkjeeovb+krdu8v5'
+#DESARROLLO
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+load_dotenv()
+SECRET_KEY = os.getenv('SECRET_KEY')
+#DEBUG = True
+
+#PRODUCCION
+# SECRET_KEY = os.environ["SECRET_KEY"]
+DEBUG = False
+
+
+
 
 ALLOWED_HOSTS = ['distridelsur.com' ,'149.50.135.243', 'distribuidoradelsur.pythonanywhere.com', 'localhost', '127.0.0.1']
 
@@ -128,9 +138,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, "web/staticfiles")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+EMAIL_PASSWORD = os.getenv('PASSWORD_EMAIL_FERRETERIA')
+
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "nachog.akd@gmail.com"
-EMAIL_HOST_PASSWORD = "tgyuhhzgdbgwfgqt"
+EMAIL_HOST_PASSWORD = EMAIL_PASSWORD
