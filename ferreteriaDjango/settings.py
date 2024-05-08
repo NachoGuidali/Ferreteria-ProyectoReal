@@ -13,7 +13,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 
-from dotenv import load_dotenv
+#DESARROLLO-------------------
+#from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,17 +23,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-#DESARROLLO
-
-load_dotenv()
-SECRET_KEY = os.getenv('SECRET_KEY')
+#DESARROLLO----------------------------------------
+#load_dotenv()
 #DEBUG = True
 
 #PRODUCCION
-# SECRET_KEY = os.environ["SECRET_KEY"]
+
 DEBUG = False
 
-
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 
 ALLOWED_HOSTS = ['distridelsur.com' ,'149.50.135.243', 'distribuidoradelsur.pythonanywhere.com', 'localhost', '127.0.0.1']
