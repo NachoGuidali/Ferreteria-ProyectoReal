@@ -166,14 +166,34 @@ def enviar_carrito_por_whatsapp(request):
         enlace_whatsapp = f"https://api.whatsapp.com/send?phone={numero_destino}&text={mensaje_codificado}"
 
         asunto = "Nuevo pedido recibido"
-        destinatario = "nachog.akd@gmail.com"  # Reemplazar con el correo del dueño
+        destinatario = "Fdistribuidoradelsur@gmail.com"  # Reemplazar con el correo del dueño
         send_mail(
             asunto,
             mensaje,
-            "nachog.akd@gmail.com",  # Reemplazar con el correo de la tienda
+            "Fdistribuidoradelsur@gmail.com",  # Reemplazar con el correo de la tienda
             [destinatario],
             fail_silently=False,
         )
 
         # Redirigir al usuario al enlace de WhatsApp
         return redirect(enlace_whatsapp)
+    
+
+def contact_form(request):  
+    if request.method == "POST":
+        nombre = request.POST['nombre']
+        email = request.POST['email']
+        mensaje = request.POST['mensaje']
+        mensaje_html = "Nombre: {} \n Email: {} \n Mensaje: {}".format(nombre, email, mensaje)
+        asunto = "Nuevo mensaje de contacto web"
+        destinatario = "Fdistribuidoradelsur@gmail.com"
+        send_mail (
+            asunto,
+            mensaje_html,
+            "Fdistribuidoradelsur@gmail.com",
+            [destinatario],
+            fail_silently=False
+        )
+        context = {'mensaje_exito': '¡Mensaje enviado exitosamente!'}
+        return render(request, 'home.html', context)
+    return render(request, 'home.html', {})

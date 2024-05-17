@@ -15,7 +15,7 @@
 </form>
 
 <div class="texto-home">
-    <p>Contamos con una amplia variedad de marcas y productos para poder brindarte siempre el mejor servicio posible.</p>
+    <p>Contamos con un amplio catalogo de mas de 50 marcas y 10.000 productos para poder brindarte siempre el mejor servicio posible.</p>
 </div>
  
 
@@ -124,22 +124,28 @@
         <h2>Contacto</h2>
         <p>Comunicate con nosotros completando el formulario y nos comunicaremos a la brevedad.</p>
     </div>    
-<form class="shadow mb-5 rounded contact-form">
+<form class="shadow mb-5 rounded contact-form" method="post" action="{% url 'contacto' %}">
+    {% csrf_token %}
     <div class="mb-3">
       <label for="nombre" class="form-label">Nombre</label>
-      <input type="text" class="form-control" id="nombre" placeholder="Ingresa tu nombre">
+      <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingresa tu nombre" required>
     </div>
     <div class="mb-3">
       <label for="email" class="form-label">Correo electrónico</label>
-      <input type="email" class="form-control" id="email" placeholder="Ingresa tu correo electrónico">
+      <input type="email" class="form-control" id="email" name="email" placeholder="Ingresa tu correo electrónico" required>
     </div>
     <div class="mb-3">
       <label for="mensaje" class="form-label">Mensaje</label>
-      <textarea class="form-control" id="mensaje" rows="3" placeholder="Escribe tu mensaje"></textarea>
+      <textarea class="form-control" id="mensaje" name="mensaje" rows="3" placeholder="Escribe tu mensaje" required></textarea>
     </div>
     <div class="boton-contacto">
         <button type="submit" class="btn btn-primary">Enviar</button>
     </div>
+    {% if mensaje_exito %}
+        <div class="alert alert-success" role="alert">
+            {{ mensaje_exito }}
+        </div>
+    {% endif %}
 </form>
 </div>
 </div>
