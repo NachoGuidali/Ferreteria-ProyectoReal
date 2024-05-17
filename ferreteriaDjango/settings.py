@@ -36,7 +36,11 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 ALLOWED_HOSTS = ['distridelsur.com' ,'149.50.135.243', 'distribuidoradelsur.pythonanywhere.com', 'localhost', '127.0.0.1']
 
+# settings.py
 
+CSRF_TRUSTED_ORIGINS = ['https://distridelsur.com']
+CSRF_COOKIE_SECURE = True  # Solo si usas HTTPS
+SESSION_COOKIE_SECURE = True  # Solo si usas HTTPS
 # Application definition
 
 INSTALLED_APPS = [
@@ -145,3 +149,5 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "Fdistribuidoradelsur@gmail.com"
 EMAIL_HOST_PASSWORD = EMAIL_PASSWORD
+
+CSRF_COOKIE_DOMAIN = 'distridelsur.com'
