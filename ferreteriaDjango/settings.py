@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 
 #DESARROLLO-------------------
-# from dotenv import load_dotenv
+#from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,8 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 #DESARROLLO----------------------------------------
-# load_dotenv()
-# DEBUG = True
+#load_dotenv()
+#DEBUG = True
 
 #PRODUCCION
 DEBUG = False
