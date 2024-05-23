@@ -16,6 +16,10 @@ from .context_processors import total_carrito
 
 from .forms import CargarProductosForm
 
+from .tasks import procesar_archivo_excel
+from django.conf import settings
+import os
+
 
 
 # Create your views here.
@@ -82,24 +86,40 @@ def cargar_productos(request):
     if request.method == 'POST':
         form = CargarProductosForm(request.POST, request.FILES)
         if form.is_valid():
-            Producto.objects.all().delete()
             archivo_excel = request.FILES['archivo_excel']
-            try:
-                df = pd.read_excel(archivo_excel, skiprows=8)
-                for index, row in df.iterrows():
-                    Producto.objects.create(
-                        codigo=row['Codigo'],
-                        nombre=row['Producto'],
-                        proveedor=row['Marca'],
-                        tipo_moneda=row['TipoMoneda'],
-                        precio=row['Precio'],
-                    )
-                return redirect('productos')
-            except Exception as e:
-                return render (request, 'cargar_productos.html', {'form': form, 'error_message':str(e)}) 
+            # Guardar el archivo en el sistema de archivos
+            ruta_archivo = os.path.join(settings.MEDIA_ROOT, archivo_excel.name)
+            with open(ruta_archivo, 'wb') as f:
+                for chunk in archivo_excel.chunks():
+                    f.write(chunk)
+            # Llamar a la tarea Celery con la ruta del archivo
+            procesar_archivo_excel.delay(ruta_archivo)
+            return redirect('productos')
     else:
         form = CargarProductosForm()
-    return render(request, 'cargar_productos.html', {'form': form})               
+    return render(request, 'cargar_productos.html', {'form': form})
+# def cargar_productos(request):
+#     if request.method == 'POST':
+#         form = CargarProductosForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             Producto.objects.all().delete()
+#             archivo_excel = request.FILES['archivo_excel']
+#             try:
+#                 df = pd.read_excel(archivo_excel, skiprows=8)
+#                 for index, row in df.iterrows():
+#                     Producto.objects.create(
+#                         codigo=row['Codigo'],
+#                         nombre=row['Producto'],
+#                         proveedor=row['Marca'],
+#                         tipo_moneda=row['TipoMoneda'],
+#                         precio=row['Precio'],
+#                     )
+#                 return redirect('productos')
+#             except Exception as e:
+#                 return render (request, 'cargar_productos.html', {'form': form, 'error_message':str(e)}) 
+#     else:
+#         form = CargarProductosForm()
+#     return render(request, 'cargar_productos.html', {'form': form})           
 
 
 @csrf_exempt
