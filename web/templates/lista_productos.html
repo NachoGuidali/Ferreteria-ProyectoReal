@@ -8,6 +8,7 @@
     <form id="busquedaForm" class="busqueda" method="get" action="{% url 'productos' %}">
         <div class="input-busqueda">
             <input class="form-control" type="text" name="name" placeholder="Buscar productos..." value="{{ keyword_name }}">
+            <input class="form-control" type="text" name="codigo" placeholder="Buscar por codigo..." value="{{ keyword_codigo }}">
             <input class="form-control" type="text" name="proveedor" placeholder="Buscar por proveedor..." value="{{ keyword_proveedor }}">
         </div>
         <div class="boton-busqueda">

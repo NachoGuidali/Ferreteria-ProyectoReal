@@ -35,11 +35,16 @@ def lista_productos(request):
     # LOGICA DEL BUSCADOR 
     keyword_name = request.GET.get('name')
     keyword_proveedor = request.GET.get('proveedor')
+    keyword_codigo = request.GET.get('codigo')
 
     if keyword_name:
         productos = productos.filter(nombre__icontains=keyword_name)
     else:
         keyword_name = ""
+    if keyword_codigo:
+        productos = productos.filter(codigo__icontains=keyword_codigo)
+    else:
+        keyword_codigo = ""     
     if keyword_proveedor:
         productos = productos.filter(proveedor__icontains=keyword_proveedor)
     else:
@@ -162,10 +167,11 @@ def enviar_carrito_por_whatsapp(request):
     if request.method == "POST":
         nombre = request.POST['nombre']
         email = request.POST['email']
+        dni = request.POST['dni']
         carrito = Carrito(request)
         contenido_carrito = carrito.carrito
 
-        mensaje = f"¡Hola! El cliente {nombre} (email: {email}) quisiera realizar el siguiente pedido:\n\n"
+        mensaje = f"¡Hola! El cliente {nombre}, DNI:{dni}  (email: {email}) quisiera realizar el siguiente pedido:\n\n"
         total_carrito_usd = total_carrito(request)['total_carrito_usd']
         total_carrito_pesos = total_carrito(request)['total_carrito_pesos']
         
