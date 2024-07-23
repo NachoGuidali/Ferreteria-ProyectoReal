@@ -254,11 +254,11 @@ footer{
     
 }
 
-.copy a{
+.link-supreg{
     text-decoration: none;
     color: white;
 }
-.copy a:hover{
+.link-supreg:hover{
     color: rgba(8, 226, 255, 0.815);
 }
 
