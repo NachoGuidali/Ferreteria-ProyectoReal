@@ -256,6 +256,14 @@ footer{
     
 }
 
+.copy a{
+    text-decoration: none;
+    color: white;
+}
+.copy a:hover{
+    color: rgba(8, 226, 255, 0.815);
+}
+
 
 .ubicacion{
     width: 100%;
