@@ -262,6 +262,15 @@ footer{
     color: rgba(8, 226, 255, 0.815);
 }
 
+.ubicacion{
+    width: 100%;
+    margin-left: 2rem;
+}
+
+.ubicacion a{
+    color: white;
+    text-decoration: none;
+}
 
 /* BUSQUEDA */
 .busqueda{
