@@ -1,2 +1,4 @@
 Django==4.2.6
 pandas==2.0.0
+celery
+Django
