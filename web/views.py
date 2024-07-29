@@ -40,11 +40,15 @@ def lista_productos(request):
     """if keyword_name:
         productos = productos.filter(nombre__icontains=keyword_name)"""
     if keyword_name:
-        keyword_name = keyword_name.split()
+        # Dividir el término de búsqueda en palabras individuales
+        keywords_name = keyword_name.split()
+        # Crear una consulta que busque cada palabra en el nombre del producto
         query_name = Q()
-        for word in keyword_name:
+        for word in keywords_name:
             query_name &= Q(nombre__icontains=word)
-        productos = productos.filter(query_name)    
+        productos = productos.filter(query_name)
+        # Concatenar palabras clave en una cadena para mostrar en el campo de entrada
+        keyword_name = ' '.join(keywords_name)
     else:
         keyword_name = ""
     if keyword_codigo:
