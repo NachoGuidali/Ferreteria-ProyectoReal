@@ -2,8 +2,8 @@ from django.db import models
 
 # Create your models here.
 class Producto(models.Model):
-    codigo = models.CharField(max_length=15)
-    nombre = models.CharField(max_length=50)
+    codigo = models.CharField(max_length=50)
+    nombre = models.CharField(max_length=100)
     proveedor = models.CharField(max_length=50)
     tipo_moneda = models.CharField(max_length=50)
     precio = models.FloatField()

@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 
 #DESARROLLO-------------------
-#from dotenv import load_dotenv
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,11 +24,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 #DESARROLLO----------------------------------------
-#load_dotenv()
-#DEBUG = True
+load_dotenv()
+DEBUG = True
 
 #PRODUCCION
-DEBUG = False
+#DEBUG = False
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
@@ -88,10 +88,21 @@ WSGI_APPLICATION = 'ferreteriaDjango.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
+"""DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}"""
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'dbdistri',
+        'USER': 'supreg',
+        'PASSWORD': 'supreg',
+        'HOST': 'localhost',  # Cambia esto si tu base de datos está en otro servidor
+        'PORT': '5432',       # El puerto por defecto para PostgreSQL
     }
 }
 
@@ -157,10 +168,10 @@ CSRF_COOKIE_DOMAIN = 'distridelsur.com'
 
 
 #DESARROLLO
-#CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Usando Redis como broker
-#CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Usando Redis como broker
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 
 
 #PRODUCCION
-CELERY_BROKER_URL = 'redis://149.50.135.243:6379/0'  # Usando Redis como broker
-CELERY_RESULT_BACKEND = 'redis://149.50.135.243:6379/0'
+#CELERY_BROKER_URL = 'redis://149.50.135.243:6379/0'  # Usando Redis como broker
+#CELERY_RESULT_BACKEND = 'redis://149.50.135.243:6379/0'
