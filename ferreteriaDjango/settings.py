@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 
 #DESARROLLO-------------------
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,11 +24,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 #DESARROLLO----------------------------------------
-load_dotenv()
-DEBUG = True
+#load_dotenv()
+#DEBUG = True
 
 #PRODUCCION
-#DEBUG = False
+DEBUG = False
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
@@ -168,10 +168,10 @@ CSRF_COOKIE_DOMAIN = 'distridelsur.com'
 
 
 #DESARROLLO
-CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Usando Redis como broker
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+#CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Usando Redis como broker
+#CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 
 
 #PRODUCCION
-#CELERY_BROKER_URL = 'redis://149.50.135.243:6379/0'  # Usando Redis como broker
-#CELERY_RESULT_BACKEND = 'redis://149.50.135.243:6379/0'
+CELERY_BROKER_URL = 'redis://149.50.135.243:6379/0'  # Usando Redis como broker
+CELERY_RESULT_BACKEND = 'redis://149.50.135.243:6379/0'
